@@ -2,8 +2,10 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-img = cv2.imread('D:\obraz2.jpg',0)
-img2 = cv2.imread('D:\obraz2.jpg',1)
+#Pamietajcie żeby dać swoją ścieżkę - jeśli ścieżka do zdjęcia w folderze github/projekt wam nie zadziała
+#pobierzcie zdjęcie np na pulpit i dajcie ścieżkę tam
+img = cv2.imread('C:/Users/AndrzejBorek/OneDrive - DTP/Pulpit/Projekt_2/bullet_hole.jpg',0)
+img2 = cv2.imread('C:/Users/AndrzejBorek/OneDrive - DTP/Pulpit/Projekt_2/bullet_hole.jpg',1)
 average_color_row = np.average(img, axis=0)
 average_color = np.average(average_color_row, axis=0)
 print(average_color)
