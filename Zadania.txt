@@ -1,4 +1,4 @@
 Żaneta: Rysowanie histogramu, odcinanie wartości, wyznaczanie zakresu
 Ola D: Kontrast
 Ola G: Testowanie zdjęć
-A: Środek ciężkości / pole figury
+A: Środek ciężkości / pole figury / opakowanie w figurę
