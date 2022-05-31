@@ -2,19 +2,22 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-#Pamietajcie żeby dać swoją ścieżkę - jeśli ścieżka do zdjęcia w folderze github/projekt wam nie zadziała
-#pobierzcie zdjęcie np na pulpit i dajcie ścieżkę tam
-img = cv2.imread('C:/Users/AndrzejBorek/OneDrive - DTP/Pulpit/Projekt_2/bullet_hole.jpg',0)
-img2 = cv2.imread('C:/Users/AndrzejBorek/OneDrive - DTP/Pulpit/Projekt_2/bullet_hole.jpg',1)
+# Pamietajcie żeby dać swoją ścieżkę - jeśli ścieżka do zdjęcia w folderze github/projekt wam nie zadziała
+# pobierzcie zdjęcie np na pulpit i dajcie ścieżkę tam
+img = cv2.imread(
+    'C:/Users/Andrzej/Desktop/bullet_hole.jpg', 0)
+img2 = cv2.imread(
+    'C:/Users/Andrzej/Desktop/bullet_hole.jpg', 1)
 average_color_row = np.average(img, axis=0)
 average_color = np.average(average_color_row, axis=0)
 print(average_color)
 
-ret,thresh1 = cv2.threshold(img,100,255,cv2.THRESH_BINARY)
-ret,thresh2 = cv2.threshold(img,110,255,cv2.THRESH_BINARY_INV)
-ret,thresh3 = cv2.threshold(img,127,255,cv2.THRESH_TRUNC)
-ret,thresh4 = cv2.threshold(img,127,255,cv2.THRESH_TOZERO)
-ret,thresh5 = cv2.threshold(img,127,255,cv2.THRESH_TOZERO_INV)
+ret, thresh1 = cv2.threshold(img, 100, 255, cv2.THRESH_BINARY)
+ret, thresh2 = cv2.threshold(img, 110, 255, cv2.THRESH_BINARY_INV)
+ret, thresh3 = cv2.threshold(img, 127, 255, cv2.THRESH_TRUNC)
+ret, thresh4 = cv2.threshold(img, 127, 255, cv2.THRESH_TOZERO)
+ret, thresh5 = cv2.threshold(img, 127, 255, cv2.THRESH_TOZERO_INV)
+
 
 # titles = ['Original Image','BINARY','BINARY_INV','TRUNC','TOZERO','TOZERO_INV']
 # images = [img, thresh1, thresh2, thresh3, thresh4, thresh5]
@@ -23,7 +26,7 @@ ret,thresh5 = cv2.threshold(img,127,255,cv2.THRESH_TOZERO_INV)
 #     plt.title(titles[i])
 #     plt.xticks([]),plt.yticks([])
 
-kernel = np.ones((5,5),np.uint8)
+kernel = np.ones((5, 5), np.uint8)
 
 opening = cv2.morphologyEx(thresh2, cv2.MORPH_OPEN, kernel)
 #gradient = cv2.morphologyEx(opening, cv2.MORPH_GRADIENT, kernel)
@@ -44,8 +47,14 @@ print("test")
 # plt.imshow(img2), plt.show()
 
 # find the contours from the thresholded image
-contours, hierarchy = cv2.findContours(closing, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+# contours, hierarchy = cv2.findContours(
+#     closing, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 # draw all contours
+
+# trying to get all points of contours to calculate area
+contours, hierarchy = cv2.findContours(
+    closing, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
 image = cv2.drawContours(img2, contours, -1, (0, 255, 0), 2)
 plt.imshow(image)
 plt.show()
+print(contours)
