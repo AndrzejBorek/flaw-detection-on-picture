@@ -5,12 +5,13 @@ from matplotlib import pyplot as plt
 # Pamietajcie żeby dać swoją ścieżkę - jeśli ścieżka do zdjęcia w folderze github/projekt wam nie zadziała
 # pobierzcie zdjęcie np na pulpit i dajcie ścieżkę tam
 img = cv2.imread(
-    'C:/Users/AndrzejBorek/OneDrive - DTP/Pulpit/bullet_hole.jpg', 0)
+    'C:/Users/AndrzejBorek/OneDrive - DTP/Pulpit/bullet_hole2.jpg', 0)
 img2 = cv2.imread(
-    'C:/Users/AndrzejBorek/OneDrive - DTP/Pulpit/bullet_hole.jpg', 1)
-average_color_row = np.average(img, axis=0)
-average_color = np.average(average_color_row, axis=0)
-print(average_color)
+    'C:/Users/AndrzejBorek/OneDrive - DTP/Pulpit/bullet_hole2.jpg', 1)
+
+# average_color_row = np.average(img, axis=0)
+# average_color = np.average(average_color_row, axis=0)
+# print(average_color)
 
 ret, thresh1 = cv2.threshold(img, 100, 255, cv2.THRESH_BINARY)
 ret, thresh2 = cv2.threshold(img, 110, 255, cv2.THRESH_BINARY_INV)
@@ -28,13 +29,13 @@ ret, thresh5 = cv2.threshold(img, 127, 255, cv2.THRESH_TOZERO_INV)
 
 kernel = np.ones((5, 5), np.uint8)
 
-opening = cv2.morphologyEx(thresh2, cv2.MORPH_OPEN, kernel)
+opening = cv2.morphologyEx(thresh1, cv2.MORPH_OPEN, kernel)
 #gradient = cv2.morphologyEx(opening, cv2.MORPH_GRADIENT, kernel)
 closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel)
 
-#-------- calculating number of pixels of defect 01.06 Andrzej
-area = cv2.countNonZero(closing)
-print(area)
+#-------- calculating number of pixels of defect 01.06 Andrzej 
+# area = cv2.countNonZero(closing)
+# print(area)
 #---------
 
 
@@ -53,14 +54,21 @@ print("test")
 # img2 = cv2.drawKeypoints(closing, kp, None, color=(0, 255, 0), flags=0)
 # plt.imshow(img2), plt.show()
 
+
 # find the contours from the thresholded image
 contours, hierarchy = cv2.findContours(
     closing, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 # draw all contours
 
+#calculate area of contours -- check what value that function returns
+area = 0
+for i in range(len(contours)):
+    area = area + cv2.contourArea(contours[i])
 
+print(area)
    
 image = cv2.drawContours(img2, contours, -1, (0, 255, 0), 2)
 plt.imshow(image)
 plt.show()
+
 
