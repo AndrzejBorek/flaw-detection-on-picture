@@ -1,3 +1,4 @@
+from xml.etree.ElementTree import tostring
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
@@ -5,9 +6,9 @@ from matplotlib import pyplot as plt
 # Pamietajcie żeby dać swoją ścieżkę - jeśli ścieżka do zdjęcia w folderze github/projekt wam nie zadziała
 # pobierzcie zdjęcie np na pulpit i dajcie ścieżkę tam
 img = cv2.imread(
-    'C:/Users/AndrzejBorek/OneDrive - DTP/Pulpit/bullet_hole2.jpg', 0)
+    'C:/Users/Andrzej/Desktop/bullet_hole.jpg', 0)
 img2 = cv2.imread(
-    'C:/Users/AndrzejBorek/OneDrive - DTP/Pulpit/bullet_hole2.jpg', 1)
+    'C:/Users/Andrzej/Desktop/bullet_hole.jpg', 1)
 
 # average_color_row = np.average(img, axis=0)
 # average_color = np.average(average_color_row, axis=0)
@@ -33,10 +34,10 @@ opening = cv2.morphologyEx(thresh1, cv2.MORPH_OPEN, kernel)
 #gradient = cv2.morphologyEx(opening, cv2.MORPH_GRADIENT, kernel)
 closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel)
 
-#-------- calculating number of pixels of defect 01.06 Andrzej 
+# -------- calculating number of pixels of defect 01.06 Andrzej
 # area = cv2.countNonZero(closing)
 # print(area)
-#---------
+# ---------
 
 
 # plt.imshow(opening ,'gray')
@@ -60,15 +61,22 @@ contours, hierarchy = cv2.findContours(
     closing, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 # draw all contours
 
-#calculate area of contours -- check what value that function returns
+# calculate area of contours -- check what value that function returns
 area = 0
 for i in range(len(contours)):
     area = area + cv2.contourArea(contours[i])
-
+print("AREA:")
 print(area)
-   
+
 image = cv2.drawContours(img2, contours, -1, (0, 255, 0), 2)
+
+cnt = contours[0]
+M = cv2.moments(cnt)
+cx = int(M['m10']/M['m00'])
+cy = int(M['m01']/M['m00'])
+print("X coordinate of center of mass:")
+print(cx)
+print("Y coordinate of center of mass:")
+print(cy)
 plt.imshow(image)
 plt.show()
-
-
