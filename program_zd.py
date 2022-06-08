@@ -6,9 +6,9 @@ from matplotlib import pyplot as plt
 # Pamietajcie żeby dać swoją ścieżkę - jeśli ścieżka do zdjęcia w folderze github/projekt wam nie zadziała
 # pobierzcie zdjęcie np na pulpit i dajcie ścieżkę tam
 img = cv2.imread(
-    'C:/Users/Andrzej/Desktop/bullet_hole.jpg', 0)
+    'C:/Users/AndrzejBorek/OneDrive - DTP/Pulpit/wood_texture4.jpg', 0)
 img2 = cv2.imread(
-    'C:/Users/Andrzej/Desktop/bullet_hole.jpg', 1)
+    'C:/Users/AndrzejBorek/OneDrive - DTP/Pulpit/wood_texture4.jpg', 1)
 
 # average_color_row = np.average(img, axis=0)
 # average_color = np.average(average_color_row, axis=0)
@@ -30,7 +30,7 @@ ret, thresh5 = cv2.threshold(img, 127, 255, cv2.THRESH_TOZERO_INV)
 
 kernel = np.ones((5, 5), np.uint8)
 
-opening = cv2.morphologyEx(thresh1, cv2.MORPH_OPEN, kernel)
+opening = cv2.morphologyEx(thresh2, cv2.MORPH_OPEN, kernel)
 #gradient = cv2.morphologyEx(opening, cv2.MORPH_GRADIENT, kernel)
 closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel)
 
@@ -70,13 +70,28 @@ print(area)
 
 image = cv2.drawContours(img2, contours, -1, (0, 255, 0), 2)
 
-cnt = contours[0]
-M = cv2.moments(cnt)
-cx = int(M['m10']/M['m00'])
-cy = int(M['m01']/M['m00'])
-print("X coordinate of center of mass:")
-print(cx)
-print("Y coordinate of center of mass:")
-print(cy)
+cnt = []
+for i in range(len(contours)):
+    cnt.append(contours[i])
+
+M = []
+for i in range(len(cnt)):
+    M.append(cv2.moments(cnt[i]))
+
+print(M[1]['m10']/M[1]['m00'])
+print(M[1]['m01']/M[1]['m00'])
+
+cx = []
+cy = []
+
+for i in range(len(M)):
+    cx.append(M[i]['m10']/M[i]['m00'])
+    cy.append(M[i]['m01']/M[i]['m00'])
+    print("Kontur numer "+str(i))
+    print("Współrzędne x środka ciężkości: ")
+    print(cx[i])
+    print("Współrzędne y środka ciężkości: ")
+    print(cy[i])
+
 plt.imshow(image)
 plt.show()
