@@ -61,7 +61,7 @@ contours, hierarchy = cv2.findContours(
     closing, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 # draw all contours
 
-# calculate area of contours -- check what value that function returns
+# calculate area of contours -- it returns number of pixels
 area = 0
 for i in range(len(contours)):
     area = area + cv2.contourArea(contours[i])
